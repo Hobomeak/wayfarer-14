@@ -2,6 +2,7 @@
 using Content.Server.Explosion.Components;
 using Content.Shared.Explosion.Components;
 using Content.Shared.FloofStation;
+using Content.Shared.FloofStation;
 using Content.Shared.Implants;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Mind;
@@ -25,7 +26,10 @@ public sealed partial class TriggerSystem
         SubscribeLocalEvent<TriggerOnMobstateChangeComponent, ImplantRelayEvent<GetVerbsEvent<Verb>>>(OnVerbRelay);
     }
 
-    private void OnMobStateChanged(EntityUid uid, TriggerOnMobstateChangeComponent component, MobStateChangedEvent args)
+    private void OnMobStateChanged(
+        EntityUid uid,
+        TriggerOnMobstateChangeComponent component,
+        MobStateChangedEvent args)
     {
         component.RattleCancelToken.Cancel();
         component.RattleCancelToken = new CancellationTokenSource();
@@ -139,18 +143,60 @@ public sealed partial class TriggerSystem
         if (!component.PreventSuicide)
             return;
 
-        _popupSystem.PopupEntity(Loc.GetString("suicide-prevented"), args.Victim, args.Victim);
+        _popupSystem.PopupEntity(
+            Loc.GetString("suicide-prevented"),
+            args.Victim,
+            args.Victim);
         args.Handled = true;
     }
 
-    private void OnSuicideRelay(EntityUid uid, TriggerOnMobstateChangeComponent component, ImplantRelayEvent<SuicideEvent> args)
+    private void OnSuicideRelay(EntityUid uid,
+        TriggerOnMobstateChangeComponent component,
+        ImplantRelayEvent<SuicideEvent> args)
     {
         OnSuicide(uid, component, args.Event); 
     }
 
-    private void OnMobStateRelay(EntityUid uid, TriggerOnMobstateChangeComponent component, ImplantRelayEvent<MobStateChangedEvent> args)
+    private void OnMobStateRelay(EntityUid uid,
+        TriggerOnMobstateChangeComponent component,
+        ImplantRelayEvent<MobStateChangedEvent> args)
     {
-        OnMobStateChanged(uid, component, args.Event);
+        OnMobStateChanged(uid,component,args.Event);
+    }
+
+    private void OnVerbRelay(EntityUid uid,
+        TriggerOnMobstateChangeComponent component,
+        ImplantRelayEvent<GetVerbsEvent<Verb>> args)
+    {
+        OnGetVerbs(uid, component, args.Event); 
+    }
+
+    private void OnGetVerbs(EntityUid uid,
+        TriggerOnMobstateChangeComponent component,
+        GetVerbsEvent<Verb> args)
+    {
+        if (args.User != args.Target)
+            return; // Self only, but usable in crit
+
+        var verb = new Verb()
+        {
+            Text = Loc.GetString(
+                "trigger-on-mobstate-verb-text",
+                ("state", component.Enabled ? "ON" : "OFF")),
+            Act = () =>
+            {
+                component.Enabled = !component.Enabled;
+                _popupSystem.PopupEntity(
+                    Loc.GetString(
+                        "trigger-on-mobstate-verb-popup",
+                        ("state", component.Enabled ? "ENABLED" : "DISABLED")),
+                    args.User,
+                    args.User);
+            },
+            Disabled = false,
+            Message = "Toggle whether or not this thing tells everyone you are dead both inside and outside."
+        };
+        args.Verbs.Add(verb);
     }
 
     private void OnVerbRelay(EntityUid uid,
