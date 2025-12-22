@@ -182,8 +182,6 @@
     - AstroNavCartridge # Frontier
     - WantedListCartridge
     - NanoChatCartridge # DeltaV
-  - type: BlipCartridge
-    defaultPreset: BlipPresetSecurity
 
 - type: entity
   parent: BasePDA
@@ -923,8 +921,6 @@
     - WantedListCartridge
     - LogProbeCartridge
     - NanoChatCartridge # DeltaV
-  - type: BlipCartridge
-    defaultPreset: BlipPresetCommand
 
 - type: entity
   parent: BaseSecurityPDA
@@ -998,8 +994,6 @@
       - LogProbeCartridge
       - AstroNavCartridge
       - NanoChatCartridge # DeltaV
-  - type: BlipCartridge
-    defaultPreset: BlipPresetCommand
 
 - type: entity
   parent: CentcomPDA
