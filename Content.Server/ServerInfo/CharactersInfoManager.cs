@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Content.Server.Database;
 using Content.Server.Preferences.Managers;
 using Content.Shared.IdentityManagement;
+using Content.Shared.Preferences;
 using Robust.Server.Player;
 using Robust.Server.ServerStatus;
 using Robust.Shared.Player;
@@ -36,9 +37,21 @@ public sealed class CharactersInfoManager
 
         var jObject = new JsonObject();
         var characters = new JsonArray();
+        var hiddenCount = 0;
 
         foreach (var session in _playerManager.Sessions)
         {
+            // Check if player has preferences and wants to hide from playerlist
+            if (_prefsManager.TryGetCachedPreferences(session.UserId, out var prefs))
+            {
+                if (prefs.SelectedCharacter is HumanoidCharacterProfile profile && profile.HideFromPlayerlist)
+                {
+                    // Skip this character - they don't want to appear on the web playerlist
+                    hiddenCount++;
+                    continue;
+                }
+            }
+
             var character = new JsonObject
             {
                 ["username"] = session.Name
@@ -56,7 +69,7 @@ public sealed class CharactersInfoManager
 
             // Add profile ID from the database
             int? profileId = null;
-            if (_prefsManager.TryGetCachedPreferences(session.UserId, out var prefs))
+            if (prefs != null)
             {
                 var selectedSlot = prefs.SelectedCharacterIndex;
                 profileId = await _db.GetProfileIdAsync(session.UserId, selectedSlot);
@@ -67,6 +80,7 @@ public sealed class CharactersInfoManager
         }
 
         jObject["characters"] = characters;
+        jObject["hiddenCount"] = hiddenCount;
 
         context.ResponseHeaders["Content-Type"] = "application/json";
         context.ResponseHeaders["Access-Control-Allow-Origin"] = "*";
