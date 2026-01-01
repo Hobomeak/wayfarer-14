@@ -8,9 +8,9 @@
   category: Vore
   priority: 11
 
-- type: consentToggle
-  id: Hypno
-  category: Hypno
+# - type: consentToggle
+#   id: Hypno
+#   category: Hypno
 
 - type: consentToggle
   id: NoClone
@@ -19,9 +19,9 @@
   id: NSFWDescriptions
   priority: 3
 
-- type: consentToggle
-  id: Aphrodisiacs
-  priority: 4
+# - type: consentToggle
+#   id: Aphrodisiacs
+#   priority: 4
 
 - type: consentToggle
   id: SizeManipulation

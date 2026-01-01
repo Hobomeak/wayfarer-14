@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Content.Client.Humanoid;
 using Content.Shared.Body.Components;
+using Content.Shared.Humanoid;
 using Robust.Client.GameObjects;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Log;
@@ -11,6 +13,8 @@ namespace Content.Client.Body.Systems;
 /// </summary>
 public sealed class SizeAffectedVisualsSystem : EntitySystem
 {
+    [Dependency] private readonly HumanoidAppearanceSystem _humanoidAppearance = default!;
+    
     private readonly Dictionary<EntityUid, float> _baseScales = new();
 
     public override void Initialize()
@@ -66,6 +70,27 @@ public sealed class SizeAffectedVisualsSystem : EntitySystem
 
     private void UpdateScale(EntityUid uid, SizeAffectedComponent component, SpriteComponent sprite)
     {
+        // If this is a humanoid, use a special path to update through the humanoid appearance system
+        if (TryComp<HumanoidAppearanceComponent>(uid, out var humanoid))
+        {
+            Logger.Info($"SizeAffectedVisuals: Entity {ToPrettyString(uid)} is humanoid, delegating to HumanoidAppearanceSystem");
+            
+            // The HumanoidAppearanceSystem.UpdateSprite already checks for SizeAffectedComponent
+            // We just need to trigger it by simulating what happens on state update
+            // Get the private UpdateSprite method through reflection or use a public method
+            // Actually, let's just manually update since we have access to the components
+            var humanoidEnt = (uid, humanoid, sprite);
+            
+            // Calculate the final scale with size multiplier
+            var height = humanoid.Height * component.ScaleMultiplier;
+            var width = humanoid.Width * component.ScaleMultiplier;
+            
+            sprite.Scale = new System.Numerics.Vector2(width, height);
+            Logger.Info($"SizeAffectedVisuals: Updated humanoid scale to ({width}, {height}) with multiplier {component.ScaleMultiplier}");
+            return;
+        }
+
+        // For non-humanoids, directly update the sprite scale
         var baseScale = _baseScales.GetValueOrDefault(uid, 1.0f);
         var scale = component.ScaleMultiplier * baseScale;
         var oldScale = sprite.Scale;
