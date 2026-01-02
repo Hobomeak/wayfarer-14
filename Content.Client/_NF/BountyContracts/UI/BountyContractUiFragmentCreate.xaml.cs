@@ -37,6 +37,7 @@ public sealed partial class BountyContractUiFragmentCreate : Control
         RewardEdit.OnTextChanged += _ => UpdateDisclaimer();
         VesselEdit.OnTextChanged += _ => UpdateDisclaimer();
         TitleEdit.OnTextChanged += _ => UpdateDisclaimer();
+        ContactEdit.OnTextChanged += _ => UpdateDisclaimer();
 
         var descPlaceholder = Loc.GetString("bounty-contracts-ui-create-description-placeholder");
         DescriptionEdit.Placeholder = new Rope.Leaf(descPlaceholder);
