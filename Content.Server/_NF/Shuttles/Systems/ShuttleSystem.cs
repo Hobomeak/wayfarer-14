@@ -32,6 +32,11 @@ public sealed partial class ShuttleSystem
     public TimeSpan BrakeDelay = TimeSpan.FromSeconds(10);
     public TimeSpan NextBrakeCheck = TimeSpan.Zero;
 
+    // Cache for shuttle consoles to avoid repeated spatial queries
+    private readonly Dictionary<EntityUid, HashSet<Entity<ShuttleConsoleComponent>>> _shuttleConsoleCache = new();
+    private TimeSpan _nextConsoleCacheRefresh = TimeSpan.Zero;
+    private readonly TimeSpan _consoleCacheRefreshInterval = TimeSpan.FromSeconds(30);
+
     private const float SpaceFrictionStrength = 0.0075f;
     private const float DampenDampingStrength = 0.25f;
     private const float AnchorDampingStrength = 2.5f;
@@ -231,6 +236,14 @@ public sealed partial class ShuttleSystem
         if (curTime < NextBrakeCheck)
             return;
         NextBrakeCheck = curTime + BrakeDelay;
+
+        // Refresh console cache periodically
+        if (curTime >= _nextConsoleCacheRefresh)
+        {
+            _shuttleConsoleCache.Clear();
+            _nextConsoleCacheRefresh = curTime + _consoleCacheRefreshInterval;
+        }
+
         var query = EntityQueryEnumerator<ShuttleComponent>();
         var whereIsEveryone = GetPlayerShipsWithPeopleOnThem();
 
@@ -272,8 +285,15 @@ public sealed partial class ShuttleSystem
             {
                 continue;
             }
-            HashSet<Entity<ShuttleConsoleComponent>> cronsoles = new();
-            _lookup.GetChildEntities(mygrid ?? uid, cronsoles);
+
+            // Use cached consoles if available, otherwise query and cache
+            if (!_shuttleConsoleCache.TryGetValue(mygrid.Value, out var cronsoles))
+            {
+                cronsoles = new HashSet<Entity<ShuttleConsoleComponent>>();
+                _lookup.GetChildEntities(mygrid.Value, cronsoles);
+                _shuttleConsoleCache[mygrid.Value] = cronsoles;
+            }
+
             // is the shuttle present in the list of player ships with people on them?
             if (!whereIsEveryone.Contains(shuttle))
             {
@@ -317,41 +337,33 @@ public sealed partial class ShuttleSystem
     }
 
     /// <summary>
-    /// Returns a dictionary of:
-    /// Shuttle UIDs where: it is a player shuttle, and players are inside, and at least one player is alive.
+    /// Returns a HashSet of shuttles where: it is a player shuttle, and players are inside, and at least one player is alive.
+    /// Using HashSet for O(1) lookups instead of O(N) with List.
     /// </summary>
-    private List<ShuttleComponent> GetPlayerShipsWithPeopleOnThem()
+    private HashSet<ShuttleComponent> GetPlayerShipsWithPeopleOnThem()
     {
-        var whereDict = new List<ShuttleComponent>(); // awoo
+        var occupiedShuttles = new HashSet<ShuttleComponent>();
         foreach (var sesh in _players.Sessions)
         {
             // Get the player entity
             if (!sesh.AttachedEntity.HasValue)
-            {
-                Log.Debug($"Skipping for E-Brake: Player session {sesh.Name} ({sesh.UserId}) has no attached entity.");
                 continue;
-            }
+
             var attached = sesh.AttachedEntity.Value;
             // If the player is in crit or dead, skip them
-            if (!_mobState.IsAlive(attached)
-                || HasComp<GhostComponent>(attached))
-            {
-                Log.Debug($"Skipping for E-Brake: Player session {sesh.Name} ({sesh.UserId}) is in crit or dead.");
+            if (!_mobState.IsAlive(attached) || HasComp<GhostComponent>(attached))
                 continue;
-            }
 
             // Get the shuttle the player is on, if any
             if (!EntityManager.TryGetComponent(attached, out TransformComponent? transform)
                 || !transform.GridUid.HasValue
                 || !TryComp<ShuttleComponent>(transform.GridUid.Value, out var shuttle)
                 || !shuttle.PlayerShuttle)
-            {
-                Log.Debug($"Skipping for E-Brake: Player session {sesh.Name} ({sesh.UserId}) is not on a player shuttle.");
                 continue;
-            }
-            whereDict.Add(shuttle);
+
+            occupiedShuttles.Add(shuttle);
         }
-        return whereDict;
+        return occupiedShuttles;
     }
 
     /// <summary>
