@@ -252,3 +252,12 @@ Entries:
   id: 6521
   time: '2026-01-03T05:05:17.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/115
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: Radio channels have range limitations
+    - type: Tweak
+      message: Traffic -> Shortband (750m)  |  Common -> Broadband (3000m)
+  id: 6522
+  time: '2026-01-03T07:29:15.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/121
