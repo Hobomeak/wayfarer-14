@@ -225,3 +225,10 @@ Entries:
   id: 6518
   time: '2026-01-03T03:13:02.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/114
+- author: drraccoony
+  changes:
+    - type: Add
+      message: Added missing wave interact emote verb
+  id: 6519
+  time: '2026-01-03T04:15:01.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/113
