@@ -239,3 +239,16 @@ Entries:
   id: 6520
   time: '2026-01-03T05:05:03.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/116
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Hunger decays 75% slower
+    - type: Tweak
+      message: Made generators double fuel max capacity
+    - type: Tweak
+      message: Made generators burn fuel 50% slower
+    - type: Remove
+      message: NFPowerGridCheck event
+  id: 6521
+  time: '2026-01-03T05:05:17.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/115
