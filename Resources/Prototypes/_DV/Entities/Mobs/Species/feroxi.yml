@@ -101,10 +101,9 @@
     proto: feroxi
   - type: FeroxiDehydrate # hey bby, the CPAP stays on while we make out
     overhydrated: 1.05
-    okay: 1
-    thirsty: 0.75
-    parched: 0.25
-    dehydrated: 0.1
+    okay: 0.75
+    thirsty: 0.25
+    parched: 0.1
 
 - type: entity
   parent: MobHumanDummy

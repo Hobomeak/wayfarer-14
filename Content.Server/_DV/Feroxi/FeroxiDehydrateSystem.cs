@@ -22,31 +22,23 @@ public sealed class FeroxiDehydrateSystem : EntitySystem
         {
             return;
         }
-        // OverHydrated: 600
-        // Okay: 450
-        // Thirsty: 300
-        // Parched: 150
-        // else: 0
+
         float speedMod;
-        if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.OverHydrated])
+        if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Okay])
         {
             speedMod = component.OverhydratedModifier;
         }
-        else if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Okay])
+        else if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Thirsty])
         {
             speedMod = component.OkayModifier;
         }
-        else if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Thirsty])
+        else if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Parched])
         {
             speedMod = component.ThirstyModifier;
         }
-        else if (thirst.CurrentThirst >= thirst.ThirstThresholds[ThirstThreshold.Parched])
-        {
-            speedMod = component.ParchedModifier;
-        }
         else
         {
-            speedMod = component.DehydratedModifier;
+            speedMod = component.ParchedModifier;
         }
         args.ModifySpeed(speedMod, speedMod);
     }

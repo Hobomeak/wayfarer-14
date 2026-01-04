@@ -13,16 +13,11 @@ public sealed partial class FeroxiDehydrateComponent : Component
     public float OverhydratedModifier = 1f;
 
     [DataField("okay", required: true)]
-    public float OkayModifier = 0.9f;
+    public float OkayModifier = 0.8f;
 
     [DataField("thirsty", required: true)]
-    public float ThirstyModifier = 0.8f;
+    public float ThirstyModifier = 0.7f;
 
     [DataField("parched", required: true)]
-    public float ParchedModifier = 0.7f;
-
-    [DataField("dehydrated", required: true)]
-    public float DehydratedModifier = 0.5f;
-
-
+    public float ParchedModifier = 0.5f;
 }

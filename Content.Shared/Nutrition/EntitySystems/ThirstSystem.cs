@@ -8,7 +8,6 @@ using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Content.Shared.Nutrition.EntitySystems;
@@ -97,25 +96,12 @@ public sealed class ThirstSystem : EntitySystem
 
     public void SetThirst(EntityUid uid, ThirstComponent component, float amount)
     {
-        component.CurrentThirst = (float) Math.Clamp(amount,
+        component.CurrentThirst = Math.Clamp(amount,
             component.ThirstThresholds[ThirstThreshold.Dead],
-            component.ThirstThresholds[ThirstThreshold.OverHydrated] * 1.1 // Allow for overhydration
+            component.ThirstThresholds[ThirstThreshold.OverHydrated]
         );
 
         DirtyField(uid, component, nameof(ThirstComponent.CurrentThirst));
-    }
-
-    private bool IsMovementThreshold(ThirstThreshold threshold)
-    {
-        return threshold switch
-        {
-            ThirstThreshold.Dead => true,
-            ThirstThreshold.Parched => true,
-            ThirstThreshold.Thirsty => true,
-            ThirstThreshold.Okay => true,
-            ThirstThreshold.OverHydrated => true,
-            _ => throw new ArgumentOutOfRangeException(nameof(threshold), threshold, null)
-        };
     }
 
     public bool TryGetStatusIconPrototype(ThirstComponent component, [NotNullWhen(true)] out SatiationIconPrototype? prototype)
@@ -144,11 +130,6 @@ public sealed class ThirstSystem : EntitySystem
 
     private void UpdateEffects(EntityUid uid, ThirstComponent component)
     {
-        // if (IsMovementThreshold(component.LastThirstThreshold) != IsMovementThreshold(component.CurrentThirstThreshold) &&
-        //         TryComp(uid, out MovementSpeedModifierComponent? movementSlowdownComponent))
-        // {
-        //     _movement.RefreshMovementSpeedModifiers(uid, movementSlowdownComponent);
-        // }
         if (TryComp(uid, out MovementSpeedModifierComponent? movementSlowdownComponent))
         {
             _movement.RefreshMovementSpeedModifiers(uid, movementSlowdownComponent);
