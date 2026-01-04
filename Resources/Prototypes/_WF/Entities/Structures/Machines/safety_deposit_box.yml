@@ -27,6 +27,10 @@
       - Currency  # Prevents telecrystals and other currency items
       - Store     # Prevents uplinks
       - Gun       # Prevents firearms
+      - EncryptionKey  # Prevents radio encryption keys
+      - Battery   # Prevents power cell farming
+      - PowerCell # Prevents power cell farming
+      - Implant   # Prevents implant farming
   - type: SafetyDepositBox
   - type: Appearance
   - type: Tag
@@ -60,6 +64,10 @@
       - Currency
       - Store
       - Gun
+      - EncryptionKey
+      - Battery
+      - PowerCell
+      - Implant
   - type: SafetyDepositBox
   - type: Appearance
   - type: Tag
@@ -82,9 +90,9 @@
           True: { state: icon-open }
           False: { state: icon }
   - type: Item
-    size: Normal
+    size: Large
   - type: Storage
-    maxItemSize: Normal
+    maxItemSize: Large
     grid:
     - 0,0,1,5
     blacklist:
@@ -93,6 +101,10 @@
       - Currency
       - Store
       - Gun
+      - EncryptionKey
+      - Battery
+      - PowerCell
+      - Implant
   - type: SafetyDepositBox
   - type: Appearance
   - type: Tag
