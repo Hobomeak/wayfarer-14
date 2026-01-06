@@ -232,6 +232,8 @@
   - type: Action # Frontier, Wizden#27422 compliance, InstantAction<Action
     icon: _DV/Interface/Actions/harpy_syrinx.png
     itemIconStyle: BigAction
+  - type: InstantAction # Frontier, Wizden#27422 compliance
+    event: !type:VoiceMaskSetNameEvent
 
 - type: entity
   id: ActionToggleFlight
@@ -245,5 +247,3 @@
     checkCanInteract: false
   - type: InstantAction
     event: !type:ToggleFlightEvent
-  - type: InstantAction # Frontier, Wizden#27422 compliance
-    event: !type:VoiceMaskSetNameEvent
