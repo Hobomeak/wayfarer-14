@@ -318,3 +318,22 @@ Entries:
   id: 6529
   time: '2026-01-06T20:03:43.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/141
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: Energy Revolver
+    - type: Add
+      message: NFSD Energy Revolver, EMP Grenade Magazines added to NFSD Uplink
+    - type: Add
+      message: Brigmedic/Deputies/Detectives get an Uplink with 15 FUC
+    - type: Tweak
+      message: More equipment access for lower ranked NFSD
+    - type: Tweak
+      message: NFSD Combat Hardsuit & Command Combat Hardsuit equal in resistances
+    - type: Tweak
+      message: NFSD Experimental Combat Hardsuit from 20 FUC to 50 FUC
+    - type: Tweak
+      message: Sergeant, Bailiff & Sheriff 5 more FUCs each as starting currency
+  id: 6530
+  time: '2026-01-06T22:09:04.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/139
