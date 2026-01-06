@@ -73,4 +73,9 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool> AccessibilityServerCensorNudity =
             CVarDef.Create("accessibility.server_censor_nudity", false, CVar.ARCHIVE | CVar.REPLICATED | CVar.SERVER);
+    /// <summary>
+    /// If enabled, changes the pointer arrow to now parent color information off the Highlight color provided
+    /// </summary>
+    public static readonly CVarDef<string> PointingArrowColor =
+        CVarDef.Create("hud.pointing_arrow_color", "#FFFFFF", CVar.ARCHIVE | CVar.CLIENTONLY);
 }

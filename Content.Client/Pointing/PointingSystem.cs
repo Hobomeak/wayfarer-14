@@ -8,6 +8,8 @@ using DrawDepth = Content.Shared.DrawDepth.DrawDepth;
 
 namespace Content.Client.Pointing;
 
+[Dependency] private readonly IConfigurationManager _cfg = default!; // Wayfarer
+
 public sealed partial class PointingSystem : SharedPointingSystem
 {
     [Dependency] private readonly SpriteSystem _sprite = default!;
@@ -58,6 +60,10 @@ public sealed partial class PointingSystem : SharedPointingSystem
     {
         if (TryComp<SpriteComponent>(uid, out var sprite))
             _sprite.SetDrawDepth((uid, sprite), (int)DrawDepth.Overlays);
+
+        // Apply the user-configured color
+        var color = Color.FromHex(_cfg.GetCVar(CCVars.PointingArrowColor));
+        sprite.Color = color;
 
         BeginPointAnimation(uid, component.StartPosition, component.Offset, component.AnimationKey);
     }
