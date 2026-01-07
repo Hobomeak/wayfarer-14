@@ -72,6 +72,9 @@ public sealed partial class AudioTab : Control
         Control.AddOptionCheckBox(CCVars.EventMusicEnabled, EventMusicCheckBox);
         Control.AddOptionCheckBox(CCVars.AdminSoundsEnabled, AdminSoundsCheckBox);
         Control.AddOptionCheckBox(CCVars.BwoinkSoundEnabled, BwoinkSoundCheckBox);
+        Control.AddOptionCheckBox(CCVars.MentionSoundEnabled, MentionSoundCheckBox);
+        Control.AddOptionCheckBox(CCVars.LoocSoundEnabled, LoocSoundCheckBox);
+        Control.AddOptionCheckBox(CCVars.SubtleSoundEnabled, SubtleSoundCheckBox);
 
         Control.Initialize();
     }

@@ -23,6 +23,7 @@ using Content.Shared.Decals;
 using Content.Shared.Input;
 using Content.Shared.Radio;
 using Content.Shared.Roles.RoleCodeword;
+using Robust.Client.Audio;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
@@ -36,6 +37,7 @@ using Robust.Shared.GameObjects.Components.Localization;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
@@ -66,6 +68,7 @@ public sealed partial class ChatUIController : UIController
     [UISystemDependency] private readonly TransformSystem? _transform = default;
     [UISystemDependency] private readonly MindSystem? _mindSystem = default!;
     [UISystemDependency] private readonly RoleCodewordSystem? _roleCodewordSystem = default!;
+    [UISystemDependency] private readonly AudioSystem? _audio = default!;
 
     private static readonly ProtoId<ColorPalettePrototype> ChatNamePalette = "ChatNames";
     private string[] _chatNameColors = default!;
@@ -847,9 +850,53 @@ public sealed partial class ChatUIController : UIController
         }
 
         // Color any words chosen by the client.
+        var highlightMatched = false;
         foreach (var highlight in _highlights)
         {
+            var oldMessage = msg.WrappedMessage;
             msg.WrappedMessage = SharedChatSystem.InjectTagAroundString(msg, highlight, "color", _highlightsColor);
+            if (!highlightMatched && oldMessage != msg.WrappedMessage)
+                highlightMatched = true;
+        }
+
+        // Play mention sound if a highlight was matched
+        if (highlightMatched && _mentionSoundEnabled && _audio != null)
+        {
+            _audio.PlayGlobal("/Audio/_COYOTE/UserInterface/mention.ogg", Filter.Local(), false);
+        }
+
+        // Play LOOC sound notification if enabled and on cooldown
+        if (_loocSoundEnabled && _audio != null && (msg.Channel == ChatChannel.LOOC || msg.Channel == ChatChannel.SubtleLOOC))
+        {
+            var isOwnMessage = _player.LocalEntity != null && _ent.GetEntity(msg.SenderEntity) == _player.LocalEntity;
+            var currentTime = _timing.CurTime;
+
+            if (!isOwnMessage)
+            {
+                if ((currentTime - _lastLoocSoundTime) >= SoundCooldown)
+                {
+                    _audio.PlayGlobal("/Audio/_COYOTE/UserInterface/looc_sound.ogg", Filter.Local(), false);
+                }
+                // Reset cooldown timer on each message to avoid interrupting conversations
+                _lastLoocSoundTime = currentTime;
+            }
+        }
+
+        // Play Subtle sound notification if enabled (for subtle emotes)
+        if (_subtleSoundEnabled && _audio != null && msg.IsSubtle)
+        {
+            var isOwnMessage = _player.LocalEntity != null && _ent.GetEntity(msg.SenderEntity) == _player.LocalEntity;
+            var currentTime = _timing.CurTime;
+
+            if (!isOwnMessage)
+            {
+                if ((currentTime - _lastSubtleSoundTime) >= SoundCooldown)
+                {
+                    _audio.PlayGlobal("/Audio/_COYOTE/UserInterface/subtle_sound.ogg", Filter.Local(), false);
+                }
+                // Reset cooldown timer on each message to avoid interrupting conversations
+                _lastSubtleSoundTime = currentTime;
+            }
         }
 
         // Color any codewords for minds that have roles that use them
