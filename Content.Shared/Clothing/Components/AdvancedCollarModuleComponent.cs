@@ -24,6 +24,13 @@ public sealed partial class AdvancedCollarModuleComponent : Component
     public string? ComponentToAdd;
 
     /// <summary>
+    /// List of component names to add when this module is installed.
+    /// Useful for modules that need multiple components to function.
+    /// </summary>
+    [DataField]
+    public List<string> ComponentsToAdd = new();
+
+    /// <summary>
     /// Description that shows what this module does.
     /// </summary>
     [DataField]

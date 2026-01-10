@@ -66,7 +66,7 @@
 - type: entity
   parent: BaseAdvCollarModule
   id: AdvCollarModuleBondage
-  name: bondage module
+  name: Collar bondage module
   description: A module that prevents the wearer from removing the collar themselves.
   components:
     - type: Sprite
@@ -78,3 +78,39 @@
     - type: AdvancedCollarModule
       componentToAdd: SelfUnremovableClothing
       moduleDescription: Prevents self-removal
+
+# Shock Module - electrocutes wearer when remotely triggered
+
+- type: entity
+  parent: BaseAdvCollarModule
+  id: AdvCollarModuleShock
+  name: Collar shock module
+  description: A module that can remotely shock the wearer via wireless signal trigger.
+  components:
+    - type: Sprite
+      sprite: Objects/Misc/module.rsi
+      state: card_mini
+      # layers:
+      #   - state: ssd
+      #     color: "#FFD700"
+    - type: AdvancedCollarModule
+      componentsToAdd:
+        - ShockOnTrigger
+        - TriggerOnSignal
+        - DeviceNetwork
+        - WirelessNetworkConnection
+        - DeviceLinkSink
+      moduleDescription: Shocks wearer on wireless signal
+    # Store the component configurations that will be added to the collar
+    - type: ShockOnTrigger
+      damage: 1
+      duration: 2.5
+      cooldown: 3.5
+    - type: DeviceNetwork
+      deviceNetId: Wireless
+      receiveFrequencyId: BasicDevice
+    - type: WirelessNetworkConnection
+      range: 200
+    - type: DeviceLinkSink
+      ports:
+        - Trigger

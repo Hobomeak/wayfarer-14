@@ -13,6 +13,7 @@ using Robust.Shared.Containers;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Serialization.Manager;
 
 namespace Content.Shared.Clothing.EntitySystems;
 
@@ -28,6 +29,7 @@ public sealed class AdvancedCollarSystem : EntitySystem
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly ISerializationManager _serializationManager = default!;
 
     public const string ModuleContainerName = "collar_module_container";
 
@@ -126,6 +128,25 @@ public sealed class AdvancedCollarSystem : EntitySystem
         {
             args.Handled = true;
             TryInstallModule(collar, (args.Used, module), args.User);
+            return;
+        }
+
+        // Try to remove modules with screwdriver
+        if (_tool.HasQuality(args.Used, "Screwing"))
+        {
+            if (collar.Comp.ModuleContainer.ContainedEntities.Count == 0)
+                return;
+
+            args.Handled = true;
+
+            // Start do-after for removing modules
+            var doAfterArgs = new DoAfterArgs(EntityManager, args.User, 3f, new AdvancedCollarRemoveModulesDoAfterEvent(), collar.Owner, target: collar.Owner, used: args.Used)
+            {
+                BreakOnMove = true,
+                NeedHand = true
+            };
+
+            _doAfter.TryStartDoAfter(doAfterArgs);
         }
     }
 
@@ -172,6 +193,13 @@ public sealed class AdvancedCollarSystem : EntitySystem
         if (args.Cancelled)
             return;
 
+        // Check if collar is being worn - can't remove modules while equipped
+        if (TryComp<ClothingComponent>(collar, out var clothing) && clothing.InSlot != null)
+        {
+            _popup.PopupClient(Loc.GetString("advanced-collar-worn"), collar, args.User);
+            return;
+        }
+
         RemoveAllModules(collar, args.User);
     }
 
@@ -205,28 +233,84 @@ public sealed class AdvancedCollarSystem : EntitySystem
 
     private void ApplyModuleEffect(EntityUid collar, Entity<AdvancedCollarModuleComponent> module)
     {
-        if (string.IsNullOrEmpty(module.Comp.ComponentToAdd))
-            return;
+        // Handle single component (legacy)
+        if (!string.IsNullOrEmpty(module.Comp.ComponentToAdd))
+        {
+            ApplySingleComponent(collar, module.Owner, module.Comp.ComponentToAdd);
+        }
 
-        // Get the component type from the factory
-        var componentType = _componentFactory.GetRegistration(module.Comp.ComponentToAdd).Type;
+        // Handle multiple components
+        foreach (var componentName in module.Comp.ComponentsToAdd)
+        {
+            if (!string.IsNullOrEmpty(componentName))
+            {
+                ApplySingleComponent(collar, module.Owner, componentName);
+            }
+        }
+    }
+
+    private void ApplySingleComponent(EntityUid collar, EntityUid moduleEntity, string componentName)
+    {
+        // Try to get the component registration - it may not exist on the client for server-only components
+        if (!_componentFactory.TryGetRegistration(componentName, out var registration))
+        {
+            // Component doesn't exist on this side (likely server-only component on client)
+            // This is fine - server will add it when it processes the module
+            return;
+        }
+
+        var componentType = registration.Type;
 
         // Check if the collar already has this component
         if (HasComp(collar, componentType))
             return;
 
-        // Add the component to the collar
-        var component = (Component)_componentFactory.GetComponent(componentType);
-        AddComp(collar, component);
+        // Check if the module entity has this component with configuration
+        if (EntityManager.TryGetComponent(moduleEntity, componentType, out var moduleComponent))
+        {
+            // Clone the component from the module to preserve configuration
+            var component = (Component)_componentFactory.GetComponent(componentType);
+            var temp = (object)component;
+            _serializationManager.CopyTo(moduleComponent, ref temp);
+            AddComp(collar, (Component)temp!);
+        }
+        else
+        {
+            // Add the component with default values
+            var component = (Component)_componentFactory.GetComponent(componentType);
+            AddComp(collar, component);
+        }
     }
 
     private void RemoveModuleEffect(EntityUid collar, Entity<AdvancedCollarModuleComponent> module)
     {
-        if (string.IsNullOrEmpty(module.Comp.ComponentToAdd))
-            return;
+        // Handle single component (legacy)
+        if (!string.IsNullOrEmpty(module.Comp.ComponentToAdd))
+        {
+            RemoveSingleComponent(collar, module.Comp.ComponentToAdd);
+        }
 
-        // Get the component type from the factory
-        var componentType = _componentFactory.GetRegistration(module.Comp.ComponentToAdd).Type;
+        // Handle multiple components
+        foreach (var componentName in module.Comp.ComponentsToAdd)
+        {
+            if (!string.IsNullOrEmpty(componentName))
+            {
+                RemoveSingleComponent(collar, componentName);
+            }
+        }
+    }
+
+    private void RemoveSingleComponent(EntityUid collar, string componentName)
+    {
+        // Try to get the component registration - it may not exist on the client for server-only components
+        if (!_componentFactory.TryGetRegistration(componentName, out var registration))
+        {
+            // Component doesn't exist on this side (likely server-only component on client)
+            // This is fine - server will remove it when it processes the module removal
+            return;
+        }
+
+        var componentType = registration.Type;
 
         // Remove the component from the collar
         RemComp(collar, componentType);

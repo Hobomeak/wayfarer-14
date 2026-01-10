@@ -10,5 +10,6 @@ advanced-collar-full = This collar is full! Remove some modules first.
 advanced-collar-module-installed = You install {$module} into the collar.
 advanced-collar-no-modules = There are no modules to remove!
 advanced-collar-modules-removed = You remove {$count} module(s) from the collar.
+advanced-collar-worn = You can't modify modules while the collar is being worn!
 
 advanced-collar-remove-modules-verb = Remove Modules
