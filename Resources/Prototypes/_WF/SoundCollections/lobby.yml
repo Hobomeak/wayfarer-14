@@ -1,0 +1,5 @@
+- type: soundCollection
+  id: WFLobbyMusic
+  files:
+    - /Audio/_WF/Lobby/SalvageWreck.ogg
+    - /Audio/_WF/Lobby/wayfarer_drift.ogg
