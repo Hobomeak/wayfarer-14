@@ -420,3 +420,10 @@ Entries:
   id: 6537
   time: '2026-01-09T22:25:58.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/186
+- author: Eillyrea
+  changes:
+    - type: Add
+      message: IFF Search to Mass Scanner
+  id: 6538
+  time: '2026-01-07T16:26:25.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/157
