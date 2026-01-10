@@ -13,6 +13,9 @@
       sprite: Floof/Clothing/Neck/collar_black.rsi
     - type: AdvancedCollar
       maxModules: 3
+    - type: ContainerContainer
+      containers:
+        collar_module_container: !type:Container
 
 - type: entity
   parent: ClothingNeckAdvancedCollarBase
