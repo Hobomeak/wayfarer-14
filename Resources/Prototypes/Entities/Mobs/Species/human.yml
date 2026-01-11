@@ -11,7 +11,7 @@
     sprite: Mobs/Species/Human/parts.rsi
     state: full
   - type: Thirst
-    baseDecayRate: 0.025 # 75% slower than default (0.1 * 0.25)
+    baseDecayRate: 0.015 # 75% slower than default (0.1 * 0.25)
   - type: Butcherable
     butcheringType: Spike
     spawned:

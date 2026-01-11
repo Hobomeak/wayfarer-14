@@ -63,6 +63,14 @@ public sealed class SalvageMobRestrictionsSystem : EntitySystem
             if (uid == target || TerminatingOrDeleted(target))
                 continue;
 
+            // Check if this mob should be despawned when off grid
+            if (!TryComp(target, out NFSalvageMobRestrictionsComponent? mobRestrictions))
+                continue;
+
+            // Skip detonation if the mob is set to not despawn when off linked grid
+            if (!mobRestrictions.DespawnIfOffLinkedGrid)
+                continue;
+
             if (TryComp(target, out BodyComponent? body))
             {
                 // Creates a pool of blood on death, but remove the organs.
@@ -73,7 +81,7 @@ public sealed class SalvageMobRestrictionsSystem : EntitySystem
             else
             {
                 // No body, probably a robot - explode it and delete the body
-                _explosion.QueueExplosion(target, ExplosionSystem.DefaultExplosionPrototypeId, 5, 10, 5);
+                // _explosion.QueueExplosion(target, ExplosionSystem.DefaultExplosionPrototypeId, 5, 10, 5);
                 Del(target);
             }
         }

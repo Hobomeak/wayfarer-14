@@ -87,6 +87,10 @@
     scale: 1.2 # Frontier
   - type: Tag
     tags:
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
     - LizardEmotes
 
 - type: entity

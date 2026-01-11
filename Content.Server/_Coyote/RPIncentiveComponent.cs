@@ -36,6 +36,6 @@ public sealed partial class RoleplayIncentiveComponent : Component
     /// Interval between paywards when offline.
     /// </summary>
     [DataField]
-    public TimeSpan PaywardIntervalOffline = TimeSpan.FromMinutes(30); // TimeSpan.FromMinutes(15);
+    public TimeSpan PaywardIntervalOffline = TimeSpan.FromMinutes(45); // TimeSpan.FromMinutes(15);
 
 }

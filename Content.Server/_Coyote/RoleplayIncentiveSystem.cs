@@ -1,11 +1,14 @@
 using System.Linq;
 using Content.Server._NF.Bank;
+using Content.Server.Chat.Managers;
 using Content.Server.Chat.Systems;
 using Content.Server.Popups;
 using Content.Shared._NF.Bank.Components;
 using Content.Shared.Chat;
+using Content.Shared.GameTicking;
 using Content.Shared.Popups;
 using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Timing;
 
 namespace Content.Server._Coyote;
@@ -19,6 +22,8 @@ public sealed class RoleplayIncentiveSystem : EntitySystem
     [Dependency] private readonly BankSystem _bank = null!;
     [Dependency] private readonly PopupSystem _popupSystem = null!;
     [Dependency] private readonly ChatSystem _chatsys = null!;
+    [Dependency] private readonly IChatManager _chatManager = null!;
+    [Dependency] private readonly ISharedPlayerManager _playerManager = null!;
 
     private const float GoodlenSpeaking = 75;
     private const float GoodlenWhispering = 75;
@@ -295,6 +300,18 @@ public sealed class RoleplayIncentiveSystem : EntitySystem
             uid,
             uid
             );
+        // also send a chat message to the player's feed
+        if (_playerManager.TryGetSessionByEntity(uid, out var session))
+        {
+            _chatManager.ChatMessageToOne(
+                ChatChannel.Server,
+                message,
+                message,
+                EntityUid.Invalid,
+                false,
+                session.Channel
+            );
+        }
     }
 
     /// <summary>
