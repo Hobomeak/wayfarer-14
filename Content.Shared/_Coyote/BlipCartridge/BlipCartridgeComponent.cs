@@ -58,6 +58,7 @@ public sealed partial class BlipCartridgeComponent : Component
     /// A list that maps color names to their corresponding color values.
     /// prototypes
     /// </summary>
+    [DataField]
     public List<ProtoId<BlipColorSetPrototype>> ColorTable = new()
     {
         "BlipColorRed",
@@ -74,6 +75,7 @@ public sealed partial class BlipCartridgeComponent : Component
     /// A list that maps shape names to their corresponding shape values.
     /// proots
     /// </summary>
+    [DataField]
     public List<ProtoId<BlipShapeSetPrototype>> ShapeTable = new()
     {
         "BlipShapeCircle",
@@ -90,6 +92,7 @@ public sealed partial class BlipCartridgeComponent : Component
     /// <summary>
     /// Available blip presets for the cartridge.
     /// </summary>
+    [DataField]
     public List<ProtoId<RadarBlipPresetPrototype>> Presets = new()
     {
         "BlipPresetCivilian",

@@ -18,19 +18,19 @@ public sealed class BlipCartridgeSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
 
     public static readonly VerbCategory BlipPresetCat =
-        new("verb-categories-blip-preset", null);
+        new("verb-categories-blip-preset", (string?)null);
 
     public static readonly VerbCategory BlipColorCat =
-        new("verb-categories-blip-color", null);
+        new("verb-categories-blip-color", (string?)null);
 
     public static readonly VerbCategory BlipShapeCat =
-        new("verb-categories-blip-shape", null);
+        new("verb-categories-blip-shape", (string?)null);
 
     public static readonly VerbCategory BlipSizeCat =
-        new("verb-categories-blip-size", null);
+        new("verb-categories-blip-size", (string?)null);
 
     public static readonly VerbCategory BlipToggleCat =
-        new("verb-categories-blip-toggle", null);
+        new("verb-categories-blip-toggle", (string?)null);
 
     /// <inheritdoc/>
     public override void Initialize()
