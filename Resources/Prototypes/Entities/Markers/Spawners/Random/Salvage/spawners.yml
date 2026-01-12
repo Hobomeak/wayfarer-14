@@ -277,7 +277,7 @@
         weight: 35
       - !type:NestedSelector
         tableId: SalvageEquipmentLegendary
-        weight: 10
+        weight: 75
     # 5% chance of decent-ish treasure
     - !type:GroupSelector
       weight: 5
@@ -336,7 +336,7 @@
         weight: 45
       - !type:NestedSelector
         tableId: SalvageEquipmentLegendary
-        weight: 25
+        weight: 75
     # 5% chance of decent-ish treasure
     - !type:GroupSelector
       weight: 5
