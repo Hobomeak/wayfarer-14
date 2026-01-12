@@ -503,3 +503,10 @@ Entries:
   id: 6546
   time: '2026-01-11T22:44:11.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/195
+- author: drraccoony
+  changes:
+    - type: Add
+      message: Plantbags cant be dumped into Biogenerators (QOL)
+  id: 6547
+  time: '2026-01-12T00:32:47.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/196
