@@ -510,3 +510,16 @@ Entries:
   id: 6547
   time: '2026-01-12T00:32:47.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/196
+- author: drraccoony
+  changes:
+    - type: Add
+      message: Forensic Scanner to NFSD uplink
+    - type: Fix
+      message: Fixed Add WT550 (.35 pistol, overpressure) magazine box in NFSD Uplink
+    - type: Fix
+      message: Holopad will now listen for AAC Tablets output and transmit it
+    - type: Tweak
+      message: Legendary loot tables made more rare on Salvaging
+  id: 6548
+  time: '2026-01-12T00:35:00.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/197
