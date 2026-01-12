@@ -539,3 +539,12 @@ Entries:
   id: 6550
   time: '2026-01-12T05:38:56.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/202
+- author: drraccoony
+  changes:
+    - type: Tweak
+      message: Vore will no longer medimplant broadcast.
+    - type: Tweak
+      message: Vore examine options added
+  id: 6551
+  time: '2026-01-12T20:52:53.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/203
