@@ -548,3 +548,10 @@ Entries:
   id: 6551
   time: '2026-01-12T20:52:53.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/203
+- author: Eillyrea
+  changes:
+    - type: Fix
+      message: Tajaran's need food again
+  id: 6552
+  time: '2026-01-13T17:38:21.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/219
