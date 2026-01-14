@@ -105,8 +105,8 @@
   abstract: true
   components:
   - type: ProjectileSpread
-    count: 7 # eight(?) total, includes the spread as a bullet
-    spread: 7.5
+    count: 9 # 10 total, includes the spread as a bullet
+    spread: 10.5
 
 - type: entity
   categories: [ HideSpawnMenu ]
@@ -182,7 +182,7 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 20
+        Piercing: 30
         Blunt: 5
 
 - type: entity
