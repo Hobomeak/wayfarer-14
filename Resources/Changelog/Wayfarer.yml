@@ -605,3 +605,14 @@ Entries:
   id: 6558
   time: '2026-01-15T00:25:22.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/232
+- author: Eillyrea
+  changes:
+    - type: Tweak
+      message: Rifle/Pistols/Energy/Hitscan guns do more damage
+    - type: Tweak
+      message: Shotguns shoot more pellets with more spread
+    - type: Tweak
+      message: eRevolver is no longer insanely OP
+  id: 6559
+  time: '2026-01-15T00:26:41.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/227
