@@ -13,3 +13,7 @@ advanced-collar-modules-removed = You remove {$count} module(s) from the collar.
 advanced-collar-worn = You can't modify modules while the collar is being worn!
 
 advanced-collar-remove-modules-verb = Remove Modules
+
+# Clothing Lock Component
+clothing-lock-examine = [color=red]While worn, this prevents all clothing from being removed.[/color]
+clothing-lock-prevent-removal = You cannot remove any clothing while someone is wearing a clothing lock!

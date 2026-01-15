@@ -75,15 +75,11 @@
     - type: Sprite
       sprite: Objects/Misc/module.rsi
       state: ssd
-      # layers:
-      #   - state: ssd
-      #     color: "#FF0000"
     - type: AdvancedCollarModule
       componentToAdd: SelfUnremovableClothing
       moduleDescription: Prevents self-removal
 
 # Shock Module - electrocutes wearer when remotely triggered
-
 - type: entity
   parent: BaseAdvCollarModule
   id: AdvCollarModuleShock
@@ -93,9 +89,6 @@
     - type: Sprite
       sprite: Objects/Misc/module.rsi
       state: card_mini
-      # layers:
-      #   - state: ssd
-      #     color: "#FFD700"
     - type: AdvancedCollarModule
       componentsToAdd:
         - ShockOnTrigger
@@ -118,8 +111,21 @@
       ports:
         - Trigger
 
-# Jingling Module - makes jingle sounds when the wearer moves
+# Clothing Lock Module - prevents ALL clothing removal while worn
+- type: entity
+  parent: BaseAdvCollarModule
+  id: AdvCollarModuleClothingLock
+  name: Collar clothing lock module
+  description: An advanced module that locks all clothing in place, preventing removal by anyone while the collar with this module is worn.
+  components:
+    - type: Sprite
+      sprite: Objects/Misc/module.rsi
+      state: servo
+    - type: AdvancedCollarModule
+      componentToAdd: ClothingLock
+      moduleDescription: Locks all worn clothing
 
+# Jingling Module - makes jingle sounds when the wearer moves
 - type: entity
   parent: BaseAdvCollarModule
   id: AdvCollarModuleJingling
