@@ -648,3 +648,10 @@ Entries:
   id: 6563
   time: '2026-01-15T03:07:12.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/228
+- author: anpage
+  changes:
+    - type: Tweak
+      message: Changed icons and logo
+  id: 6564
+  time: '2026-01-15T03:09:04.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/235
