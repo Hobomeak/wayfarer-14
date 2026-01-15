@@ -1400,8 +1400,8 @@
 
 # Wayfarer Autopilot: begin
 - type: technology 
-  id: NFAutopilotServer
-  name: nf-research-technology-autopilot-server
+  id: WFAutopilotServer
+  name: wf-research-technology-autopilot-server
   entityIcon: AutopilotServer
   discipline: NFEngineering
   tier: 1
@@ -1410,7 +1410,7 @@
   - AutopilotServerCircuitboard
   technologyPrerequisites:
   - NFShuttlecraftThrust
-  position: 2, 33
+  position: 3, 32
 # Wayfarer Autopilot: end
 
 # region Atmospherics

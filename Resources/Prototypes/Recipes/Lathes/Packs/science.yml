@@ -132,5 +132,5 @@
   - RadarConsoleCircuitboard
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
-  - AutopilotServerCircuitboard
+  - AutopilotServerCircuitboard # Wayfarer
   - MiniGravityGeneratorCircuitboard

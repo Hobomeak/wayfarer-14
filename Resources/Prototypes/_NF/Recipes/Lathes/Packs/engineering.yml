@@ -43,7 +43,7 @@
   - PortableGeneratorJrPacmanMachineCircuitboard
   - ThrusterMachineCircuitboard
   - GyroscopeMachineCircuitboard
-  - AutopilotServerCircuitboard
+  - AutopilotServerCircuitboard # Wayfarer
   - MiniGravityGeneratorCircuitboard
   - MiniStationAnchorCircuitboard
   - GasRecyclerMachineCircuitboard
