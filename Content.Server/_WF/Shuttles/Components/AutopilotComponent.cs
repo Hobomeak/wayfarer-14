@@ -30,13 +30,13 @@ public sealed partial class AutopilotComponent : Component
     /// Distance at which autopilot will automatically disable (in meters).
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public float ArrivalDistance = 300f;
+    public float ArrivalDistance = 200f;
 
     /// <summary>
     /// Distance to start slowing down (in meters).
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public float SlowdownDistance = 150f;
+    public float SlowdownDistance = 300f;
 
     /// <summary>
     /// Minimum distance to consider an obstacle (in meters).
@@ -48,5 +48,5 @@ public sealed partial class AutopilotComponent : Component
     /// Maximum range to scan for obstacles (in meters).
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
-    public float ScanRange = 120f;
+    public float ScanRange = 125f;
 }
