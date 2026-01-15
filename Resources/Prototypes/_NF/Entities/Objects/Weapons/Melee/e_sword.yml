@@ -2,22 +2,21 @@
   name: NFSD energy sword
   parent: [BaseC2ContrabandUnredeemable, EnergySword]
   id: EnergySwordNfsd
-  description: A very loud & dangerous sword with a beam made of pure, concentrated plasma. Cuts through unarmored targets like butter.
+  description: A very loud beam of concentrated energy that drains the stamina from people it hits.  It's highly destructive to non-living equipment.
   components:
   - type: EnergySword
     colorOptions:
-      - "#d4ffbf"
+      - "#ffa71a"
     blockHacking: true
   - type: ItemToggleMeleeWeapon
     activatedDamage:
       types:
         Heat: 3
-        Slash: 2
         Structural: 30
   - type: StaminaDamageOnHit
-    damage: 30
+    damage: 22
   - type: StaminaDamageOnCollide
-    damage: 30
+    damage: 22
 
 - type: entity
   id: NFEnergyPickaxe

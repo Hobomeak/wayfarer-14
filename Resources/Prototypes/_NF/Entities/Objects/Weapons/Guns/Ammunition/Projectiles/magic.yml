@@ -28,8 +28,8 @@
   - type: Projectile
     damage:
       types:
-        Bloodloss: 3
-        Asphyxiation: 3
+        Bloodloss: 2
+        Asphyxiation: 2
   - type: Sprite
     noRot: false
     sprite: Objects/Weapons/Guns/Projectiles/magic.rsi
