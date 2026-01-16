@@ -676,3 +676,12 @@ Entries:
   id: 6567
   time: '2026-01-16T04:16:35.0000000+00:00'
   url: https://github.com/project-wayfarer/wayfarer-14/pull/242
+- author: anpage
+  changes:
+    - type: Fix
+      message: >-
+        Fixed the random IC chat text colors possibly not being bright enough to
+        read
+  id: 6568
+  time: '2026-01-16T05:57:53.0000000+00:00'
+  url: https://github.com/project-wayfarer/wayfarer-14/pull/243
